@@ -50,6 +50,7 @@ with tf.device(device_A):
     ip4 = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 4))
     ip3x = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 3))
 
+    print('loading baby.net (1/6)')
     baby = load_model('baby.net')
     baby_place = tf.concat([- 512 * tf.ones_like(ip4[:, :, :, 3:4]), 128 * tf.ones_like(ip4[:, :, :, 3:4]), 128 * tf.ones_like(ip4[:, :, :, 3:4])], axis=3)
     baby_yuv = RGB2YUV(ip4[:, :, :, 0:3])
@@ -57,13 +58,16 @@ with tf.device(device_A):
     baby_hint = baby_alpha * baby_yuv + (1 - baby_alpha) * baby_place
     baby_op = YUV2RGB(baby(tf.concat([ip1, baby_hint], axis=3)))
 
+    print('loading girder.net (2/6)')
     girder = load_model('girder.net')
     gird_op = (1 - girder([1 - ip1 / 255.0, ip4, 1 - ip3 / 255.0])) * 255.0
 
+    print('loading reader.net (3/6)')
     reader = load_model('reader.net')
     features = reader(ip3 / 255.0)
     featuresx = reader(ip3x / 255.0)
 
+    print('loading head.net (4/6)')
     head = load_model('head.net')
     feed = [1 - ip1 / 255.0, (ip4[:, :, :, 0:3] / 127.5 - 1) * ip4[:, :, :, 3:4] / 255.0]
     for _ in range(len(features)):
@@ -72,6 +76,7 @@ with tf.device(device_A):
         feed.append(item * ipa + itemx * (1 - ipa))
     nil0, nil1, head_temp = head(feed)
 
+    print('loading neck.net (5/6)')
     neck = load_model('neck.net')
     nil2, nil3, neck_temp = neck(feed)
     feed[0] = tf.clip_by_value(1 - tf.image.resize_bilinear(ToGray(VGG2RGB(head_temp) / 255.0), tf.shape(ip1)[1:3]), 0.0, 1.0)
@@ -83,7 +88,7 @@ with tf.device(device_A):
 with tf.device(device_B):
 
     ip3B = tf.placeholder(dtype=tf.float32, shape=(None, None, None, 3))
-
+    print('loading tail.net (6/6)')
     tail = load_model('tail.net')
     pads = 7
     tail_op = tail(tf.pad(ip3B / 255.0, [[0, 0], [pads, pads], [pads, pads], [0, 0]], 'REFLECT'))[:, pads*2:-pads*2, pads*2:-pads*2, :] * 255.0
