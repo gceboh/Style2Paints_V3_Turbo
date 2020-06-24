@@ -39,7 +39,7 @@ def VGG2RGB(x):
 session = keras.backend.get_session()
 
 # print input sketch's resolution
-sketch_real_resolution=int(1024*tweak_input_resolution_factor)
+sketch_real_resolution=int(1024*tweak_sketch_resolution_factor)
 print('All input sketch will be resized to ' + str(sketch_real_resolution) + 'px')
 
 with tf.device(device_A):
