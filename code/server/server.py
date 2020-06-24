@@ -54,7 +54,9 @@ def handle_sketch_upload_pool():
             print('lucky to find improved sketch')
         else:
             improved_sketch = sketch.copy()
-            improved_sketch = min_resize(improved_sketch, 512)
+            # tweak the input sketch's resolution by factor
+            tweaked_input_resolution=int(512 * tweak_input_resolution_factor)
+            improved_sketch = min_resize(improved_sketch, tweaked_input_resolution)
             improved_sketch = cv_denoise(improved_sketch)
             improved_sketch = sensitive(improved_sketch, s=5.0)
             improved_sketch = go_tail(improved_sketch)
@@ -89,7 +91,9 @@ def handle_painting_pool():
         del painting_pool[0]
         room_path = 'game/rooms/' + room
         print('processing painting in ' + room_path)
-        sketch_1024 = k_resize(sketch, 64)
+        # tweak the input sketch's resolution by factor
+        tweaked_input_resolution=int(64 * tweak_input_resolution_factor)
+        sketch_1024 = k_resize(sketch, tweaked_input_resolution)
         if os.path.exists(room_path + '/sketch.de_painting.jpg') and method == 'rendering':
             vice_sketch_1024 = k_resize(cv2.imread(room_path + '/sketch.de_painting.jpg', cv2.IMREAD_GRAYSCALE), 64)
             sketch_256 = mini_norm(k_resize(min_k_down(vice_sketch_1024, 2), 16))
