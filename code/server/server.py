@@ -45,6 +45,10 @@ painting_pool = []
 
 def handle_sketch_upload_pool():
     if len(sketch_upload_pool) > 0:
+        # print input sketch's resolution
+        sketch_real_resolution=int(1024*get_sketch_resolution_factor())
+        print('Currently all input sketch will be resized to ' + str(sketch_real_resolution) + 'px')
+        
         room, sketch, method = sketch_upload_pool[0]
         del sketch_upload_pool[0]
         room_path = 'game/rooms/' + room
@@ -55,7 +59,7 @@ def handle_sketch_upload_pool():
         else:
             improved_sketch = sketch.copy()
             # tweak the input sketch's resolution by factor
-            tweaked_input_resolution=int(512 * tweak_sketch_resolution_factor)
+            tweaked_input_resolution=int(512 * get_sketch_resolution_factor())
             improved_sketch = min_resize(improved_sketch, tweaked_input_resolution)
             improved_sketch = cv_denoise(improved_sketch)
             improved_sketch = sensitive(improved_sketch, s=5.0)
@@ -92,7 +96,7 @@ def handle_painting_pool():
         room_path = 'game/rooms/' + room
         print('processing painting in ' + room_path)
         # tweak the input sketch's resolution by factor
-        tweaked_input_resolution=int(64 * tweak_sketch_resolution_factor)
+        tweaked_input_resolution=int(64 * get_sketch_resolution_factor())
         sketch_1024 = k_resize(sketch, tweaked_input_resolution)
         if os.path.exists(room_path + '/sketch.de_painting.jpg') and method == 'rendering':
             vice_sketch_1024 = k_resize(cv2.imread(room_path + '/sketch.de_painting.jpg', cv2.IMREAD_GRAYSCALE), 64)
