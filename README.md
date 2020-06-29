@@ -129,4 +129,4 @@ Note that:
 - Show loading model info when initializing.
 
 
-Commercial usage without (Style2Paints's original author)[https://github.com/lllyasviel]'s authorization is forbidden. This unofficial repo is distributed in the hope that it will be useful, but without any warranty.
+Commercial usage without [Style2Paints's original author](https://github.com/lllyasviel)'s authorization is forbidden. This unofficial repo is distributed in the hope that it will be useful, but without any warranty.
