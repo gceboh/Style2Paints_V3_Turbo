@@ -4,7 +4,7 @@ Develop stage: Beta (More test is needed)
 
 Style2Paints's official repository: [Link](https://github.com/lllyasviel/style2paints). (Thank the authors for providing such an awesome colorization project.)
 
-This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Intel HD Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, users can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration. After applying this patch, users (especially with an old/low-end CPU) will get a significant performance boost. 
+This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Intel HD Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, users can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration. After applying this patch, users (especially with an old/low-end CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X faster**. In other words, colorization time is shortened to **50%** of the original.
 It is intended for machine learning researchers/programmers, rather than artists. It pays more attention on performance than art quality.
 
 
@@ -77,7 +77,7 @@ From the above result, we can draw a conclusion that: under CPU mode, **Style2Pa
 
 (This method is inspired by [lllyasviel's advice](https://github.com/lllyasviel/PaintingLight/issues/2#issuecomment-618914866) on another non-deep-learning project.)
 
-Style2Paints V3 resize all the input sketches to 1024px (short edge). By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (That is 50% of the original resolution.) As shown in the following results, **this simple optimization will save you about 50% of time!** 
+Style2Paints V3 resize all the input sketches to 1024px (short edge). By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (That is 50% of the original resolution.) As shown in the following results, **this simple optimization will shorten colorization time to 50% of the original!** 
 
 (1) Sketch Preparation:
 
@@ -129,5 +129,6 @@ Note that:
 - Fix out-of-date tutorial link, currently link to [V3's readme.md](https://github.com/lllyasviel/style2paints/tree/master/V3).
 - Show loading model info when initializing.
 
+---
 
 Commercial usage without [Style2Paints's original author](https://github.com/lllyasviel)'s authorization is forbidden. This unofficial repo is distributed in the hope that it will be useful, but without any warranty.
