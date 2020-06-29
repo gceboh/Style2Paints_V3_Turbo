@@ -4,7 +4,7 @@ Develop stage: Beta (More test is needed)
 
 Style2Paints's official repository: [Link](https://github.com/lllyasviel/style2paints). (Thank the authors for providing such an awesome colorization project.)
 
-This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including Intel HD Graphics/AMD GPU users. Because these graphic cards doesn't support CUDA, users can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration. After applying this patch, users (especially with an old/low-end CPU) will get a significant performance boost. 
+This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Intel HD Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, users can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration. After applying this patch, users (especially with an old/low-end CPU) will get a significant performance boost. 
 It is intended for machine learning researchers/programmers, rather than artists. It pays more attention on performance than art quality.
 
 Performance test report: issue #
@@ -76,7 +76,7 @@ From the above result, we can draw a conclusion that: under CPU mode, **Style2Pa
 
 (This method is inspired by [lllyasviel's advice](https://github.com/lllyasviel/PaintingLight/issues/2#issuecomment-618914866) on another non-deep-learning project.)
 
-By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (50% of the original resolution.) **It will save you about 50% of time.** 
+By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (50% of the original resolution.) **It will save you about 50% of time!** 
 
 (1) Sketch Preparation:
 
@@ -94,19 +94,19 @@ By default, this patch reduce the resolution (short edge) of all the input sketc
 
 The optimized colorization result will be slightly different from the original ones, but they looks **good enough** (achieve about **75%** of the original quality), among the sketches I have tested. When proper resolution is set, the result is acceptable. The following are some colorization quality comparison:
 
-Official Version (1024px):
+**Official Version (1024px):**
 ![before](result_comparison/1-official-example/1024px.png)
 
-After Optimization (512px):
+**After Optimization (512px):**
 ![after](result_comparison/1-official-example/512px.png)
 
-Official Version (1024px):
+**Official Version (1024px):**
 ![before](result_comparison/2-official-example/1024px.png)
 
-After Optimization (512px):
+**After Optimization (512px):**
 ![after](result_comparison/2-official-example/512px.png)
 
-For more colorization quality comparison, please refer to the `result comparison` folder.
+For more colorization quality comparison, please refer to the [result comparison](https://github.com/gceboh/Style2Paints_V3_Turbo/tree/master/result_comparison) folder.
 
 
 The side effect is that the paintings becomes a bit blurry than the original ones due to lower resolution, but the resolution is enough for viewing on laptop's small screen. In addition, it's enough for machine learning beginners.
@@ -115,8 +115,11 @@ If you still want to see clearer image, here are two workarounds: (1) Reduce you
 
 ### How to tweak the input sketch's resolution?
 To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `config.ini`. It is safe to modify the ini file during the program is running. After that, ALWAYS remember to **REFRESH** the webpage. Otherwise, it may cause some strange bugs.
+
 Note that:
+
 (1) Higher resolution setting will lead to slower colorization process.
+
 (2) The recommended `sketch_zoom_factor` is `0.5`. **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
 
 
