@@ -7,7 +7,8 @@ Style2Paints's official repository: [Link](https://github.com/lllyasviel/style2p
 This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Intel HD Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, users can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration. After applying this patch, users (especially with an old/low-end CPU) will get a significant performance boost. 
 It is intended for machine learning researchers/programmers, rather than artists. It pays more attention on performance than art quality.
 
-Performance test report: issue #
+
+Related issue #
 
 
 # Usage
@@ -76,7 +77,7 @@ From the above result, we can draw a conclusion that: under CPU mode, **Style2Pa
 
 (This method is inspired by [lllyasviel's advice](https://github.com/lllyasviel/PaintingLight/issues/2#issuecomment-618914866) on another non-deep-learning project.)
 
-By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (50% of the original resolution.) **It will save you about 50% of time!** 
+Style2Paints V3 resize all the input sketches to 1024px (short edge). By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (That is 50% of the original resolution.) As shown in the following results, **this simple optimization will save you about 50% of time!** 
 
 (1) Sketch Preparation:
 
@@ -120,7 +121,7 @@ Note that:
 
 (1) Higher resolution setting will lead to slower colorization process.
 
-(2) The recommended `sketch_zoom_factor` is `0.5`. **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
+(2) The recommended `sketch_zoom_factor` is `0.5`. **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`， i.e. 256px), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
 
 
 # Fix
