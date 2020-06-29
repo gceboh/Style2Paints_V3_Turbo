@@ -1,14 +1,129 @@
 # Style2Paints_V3_Turbo
-Accelerate Style2Paints V3
 
-Base commit version: [18 Dec 2019](https://github.com/lllyasviel/style2paints/commit/b0a529e70ec1414b53bf5e990d614b121086cd77)
+Develop stage: Beta (More test is needed)
+
+Style2Paints's official repository: [Link](https://github.com/lllyasviel/style2paints). (Thank the authors for providing such an awesome colorization project.)
+
+This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including Intel HD Graphics/AMD GPU users. Because these graphic cards doesn't support CUDA, users can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration. After applying this patch, users (especially with an old/low-end CPU) will get a significant performance boost. 
+It is intended for machine learning researchers/programmers, rather than artists. It pays more attention on performance than art quality.
+
+Performance test report: issue #
 
 
+# Usage
+1. Download the official [Style2Paints V3 Repo](https://github.com/lllyasviel/style2paints/tree/b0a529e70ec1414b53bf5e990d614b121086cd77/V3). 
 
-Usage:
+2. [V3's installation guide](https://github.com/lllyasviel/style2paints/issues/100).
 
-Default server port has been changed , so visit `http://127.0.0.1:8232/` in your web browser.
+Please use the following requirement file instead to avoid [package version conflict](https://github.com/lllyasviel/style2paints/issues/100#issuecomment-645709881). Version of each package has been set to near the release date of Style2paints V3 (2018.4.28).
+
+`pip install -r requirement_cpu.txt`
+
+requirement_cpu.txt:
+```
+tensorflow==1.10.0
+keras==2.1.6
+bottle==0.12.13
+gevent==1.2.2
+h5py==2.7.1
+opencv-python==3.4.0.12
+scikit-image==0.13.1
+paste==2.0.3
+```
+
+3. Use the patch files in the `code/` dir to replace the official files.
+
+4. Visit `http://127.0.0.1:8232/` in your web browser. (Default server port has been changed.)
 
 
-Fix:
-Change default server port. [Issue #126](https://github.com/lllyasviel/style2paints/issues/126)
+# Style2Paints V3 is much faster than V4.5 (CPU Mode)
+
+Here I conducted a performance test. 
+My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful.
+
+```
+CPU: Intel Core i5 3230M
+GPU: Intel HD Graphics 4000 (No stand-alone Graphics Card)
+RAM: 8 GB DDR3 (Physical memory is enough for Style2Paints V4.5/V3. No system stuck problem during colorization.)
+Hard disk: 5400 rpm. No SSD. 
+
+OS: Win 8.1 x64
+```
+
+I tested Style2Paints V3/V4.5 with [this sketch](https://github.com/lllyasviel/style2paints/blob/master/temps/show/sketches/5.jpg). The result is as the following:
+
+Style2Paints V4.5 performance (CPU mode):
+
+| Procedure | Time Cost |
+| --- | --- |
+| Initialization (Start up) | 1 min 40 s |
+| Colorization - the first time | 6 min 43 s |
+| Colorization - the second time | 5 min 30 s |
+
+Style2Paints V3 performance (CPU mode):
+
+| Procedure | Time Cost |
+| --- | --- |
+| Initialization (Start up) | 40 s |
+| Sketch Preparation | 26 s |
+| Colorization | 1 min 5 s |
+
+From the above result, we can draw a conclusion that: under CPU mode, **Style2Paints V3 is about 5X faster than V4.5**. So, for users who use CPU to colorize, if you feel V4.5's colorization process is too slow, I recommend using Style2Paints V3.
+
+
+# Performance Tuning
+## Acceleration: Reduce the resolution of the input sketch
+
+(This method is inspired by [lllyasviel's advice](https://github.com/lllyasviel/PaintingLight/issues/2#issuecomment-618914866) on another non-deep-learning project.)
+
+By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (50% of the original resolution.) **It will save you about 50% of time.** 
+
+(1) Sketch Preparation:
+
+| Acceleration Method | Time Cost |
+| --- | --- |
+| Official Version | 26 s |
+| + Reduce resolution | 7 s |
+
+(2) Colorization:
+
+| Acceleration Method | Time Cost |
+| --- | --- |
+| Official Version | 1 min 5 s |
+| + Reduce resolution | 26 s |
+
+The optimized colorization result will be slightly different from the original ones, but they looks **good enough** (achieve about **75%** of the original quality), among the sketches I have tested. When proper resolution is set, the result is acceptable. The following are some colorization quality comparison:
+
+Official Version (1024px):
+![before](result_comparison/1-official-example/1024px.png)
+
+After Optimization (512px):
+![after](result_comparison/1-official-example/512px.png)
+
+Official Version (1024px):
+![before](result_comparison/2-official-example/1024px.png)
+
+After Optimization (512px):
+![after](result_comparison/2-official-example/512px.png)
+
+For more colorization quality comparison, please refer to the `result comparison` folder.
+
+
+The side effect is that the paintings becomes a bit blurry than the original ones due to lower resolution, but the resolution is enough for viewing on laptop's small screen. In addition, it's enough for machine learning beginners.
+
+If you still want to see clearer image, here are two workarounds: (1) Reduce your browser's windows size, because smaller image looks clearer. This is especially useful for a big monitor. (2) After painting on a low-resolution sketch, tweak the resolution setting and then apply the same color hints to a high-resolution sketch. You will get a similar, but high-resolution colorization result.
+
+### How to tweak the input sketch's resolution?
+To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `config.ini`. It is safe to modify the ini file during the program is running. After that, ALWAYS remember to **REFRESH** the webpage. Otherwise, it may cause some strange bugs.
+Note that:
+(1) Higher resolution setting will lead to slower colorization process.
+(2) The recommended `sketch_zoom_factor` is `0.5`. **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
+
+
+# Fix
+- Change default server port. ([Issue #126](https://github.com/lllyasviel/style2paints/issues/126))
+- Fix out-of-date tutorial link, currently link to [V3's readme.md](https://github.com/lllyasviel/style2paints/tree/master/V3).
+- Show loading model info when initializing.
+
+
+Commercial usage without (Style2Paints's original author)[https://github.com/lllyasviel]'s authorization is forbidden. This unofficial repo is distributed in the hope that it will be useful, but without any warranty.
