@@ -95,20 +95,23 @@ def handle_painting_pool():
         del painting_pool[0]
         room_path = 'game/rooms/' + room
         print('processing painting in ' + room_path)
+
+        print('sketch pre-processing... (1/4)')
         # tweak the input sketch's resolution by factor
         tweaked_input_resolution=int(64 * get_sketch_resolution_factor())
         sketch_1024 = k_resize(sketch, tweaked_input_resolution)
         if os.path.exists(room_path + '/sketch.de_painting.jpg') and method == 'rendering':
-            vice_sketch_1024 = k_resize(cv2.imread(room_path + '/sketch.de_painting.jpg', cv2.IMREAD_GRAYSCALE), 64)
+            vice_sketch_1024 = k_resize(cv2.imread(room_path + '/sketch.de_painting.jpg', cv2.IMREAD_GRAYSCALE), tweaked_input_resolution)
             sketch_256 = mini_norm(k_resize(min_k_down(vice_sketch_1024, 2), 16))
             sketch_128 = hard_norm(sk_resize(min_k_down(vice_sketch_1024, 4), 32))
         else:
             sketch_256 = mini_norm(k_resize(min_k_down(sketch_1024, 2), 16))
             sketch_128 = hard_norm(sk_resize(min_k_down(sketch_1024, 4), 32))
-        print('sketch prepared')
         if debugging:
             cv2.imwrite(room_path + '/sketch.128.jpg', sketch_128)
             cv2.imwrite(room_path + '/sketch.256.jpg', sketch_256)
+
+        print('generating 1st draft (baby)... (2/4)')
         baby = go_baby(sketch_128, opreate_normal_hint(ini_hint(sketch_128), points, type=0, length=1))
         baby = de_line(baby, sketch_128)
         for _ in range(16):
@@ -117,17 +120,20 @@ def handle_painting_pool():
         baby = clip_15(baby)
         if debugging:
             cv2.imwrite(room_path + '/baby.' + ID + '.jpg', baby)
-        print('baby born')
+
+        print('generating 2nd draft (composition)... (3/4)')
         composition = go_gird(sketch=sketch_256, latent=d_resize(baby, sketch_256.shape), hint=ini_hint(sketch_256))
         if line:
             composition = emph_line(composition, d_resize(min_k_down(sketch_1024, 2), composition.shape), lineColor)
         composition = go_tail(composition)
         cv2.imwrite(room_path + '/composition.' + ID + '.jpg', composition)
-        print('composition saved')
+
         painting_function = go_head
         if method == 'rendering':
             painting_function = go_neck
-        print('method: ' + method)
+        print('current mode: ' + method)
+
+        print('generating final painting... (4/4)')
         result = painting_function(
             sketch=sketch_1024,
             global_hint=k_resize(composition, 14),
@@ -140,6 +146,7 @@ def handle_painting_pool():
         cv2.imwrite('results/' + room + '.' + ID + '.jpg', result)
         if debugging:
             cv2.imwrite(room_path + '/icon.' + ID + '.jpg', max_resize(result, 128))
+        print('Colorization complete.')
     return
 
 
