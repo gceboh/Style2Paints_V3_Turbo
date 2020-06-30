@@ -38,14 +38,17 @@ paste==2.0.3
 4. Visit `http://127.0.0.1:8232/` in your web browser. (Default server port has been changed.)
 
 
-# Performance comparison between V3 and V4.5 (CPU mode)
+# Performance Tuning
+
+## V3/V4.5 Performance Comparison (CPU Mode)
 
 I conducted a performance test. My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful.
 
 ```
 CPU: Intel Core i5 3230M
 GPU: Intel HD Graphics 4000 (No stand-alone Graphics Card)
-RAM: 8 GB DDR3 (Physical memory is enough for Style2Paints V4.5/V3. No system stuck problem during colorization.)
+RAM: 8 GB DDR3
+(Physical memory is enough for Style2Paints V3/V4.5. No system stuck problem during colorization.)
 Hard disk: 5400 rpm. No SSD. 
 
 OS: Win 8.1 x64
@@ -74,7 +77,6 @@ Style2Paints V3 performance (CPU mode):
 From the above result, we can draw a conclusion that: **under CPU mode, Style2Paints V3 is about 5X faster than V4.5**. So, for users who use CPU to colorize, if you feel V4.5's colorization process is too slow, I recommend using Style2Paints V3 instead. But waiting for 1 minute each time is still too slow, so can it run faster?
 
 
-# Performance Tuning
 ## Acceleration: Reduce the resolution of the input sketch
 
 Style2Paints V3 resize all the input sketches to 1024px (short edge). By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (That is 50% of the original resolution.) As shown in the following results, **this simple optimization will shorten colorization time to 50% of the original!** 
