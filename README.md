@@ -103,7 +103,9 @@ Style2Paints V3 resizes all the input sketches to 1024px (short edge). Under def
 
 (This method is inspired by [lllyasviel's advice](https://github.com/lllyasviel/PaintingLight/issues/2#issuecomment-618914866) on another non-deep-learning project.)
 
-The optimized colorization result will be slightly different from the original ones, but they looks **good enough** (**achieve about 75% of the original quality**), among the sketches I have tested. When the resolution is set among a proper range, the result is acceptable. The following are some colorization quality comparison:
+### About Painting Quality
+
+The optimized painting result will be slightly different from the original ones, but they looks **good enough** (**achieve about 75% of the original quality**), among the sketches I have tested. When the resolution is set among a proper range, the quality is good enough. The following are some painting quality comparison:
 
 **Official Version (1024px):**
 ![before](result_comparison/1-official-example/1024px.png)
@@ -117,7 +119,7 @@ The optimized colorization result will be slightly different from the original o
 **After Optimization (512px):**
 ![after](result_comparison/2-official-example/512px.png)
 
-For more colorization quality comparison, please refer to the [result comparison](https://github.com/gceboh/Style2Paints_V3_Turbo/tree/master/result_comparison) folder.
+For more comparisons, please refer to the [result comparison](https://github.com/gceboh/Style2Paints_V3_Turbo/tree/master/result_comparison) folder.
 
 The side effect is that the paintings becomes a bit blurry than the original ones due to lower resolution, but the resolution is enough for viewing on laptop's small screen. In addition, it's enough for machine learning beginners.
 
@@ -128,7 +130,7 @@ To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `c
 
 Note that:
 
-(1) The closer the zoom factor is to `1.0`, the better the quality of the painting. However, zoom factor will lead to slower colorization process. So it's important to find a **balance** between speed and quality. The recommended `sketch_zoom_factor` is `0.5`.
+(1) The closer the zoom factor is to `1.0`, the better the quality of the painting. However, higher zoom factor will lead to slower colorization process. So it's important to find a **balance** between speed and quality. The recommended `sketch_zoom_factor` is `0.5`.
 
 (2) **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`， i.e. `256px`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
 
