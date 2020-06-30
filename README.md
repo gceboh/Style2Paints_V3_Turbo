@@ -56,7 +56,7 @@ OS: Win 8.1 x64
 
 I tested Style2Paints V3/V4.5 with [this sketch](https://github.com/lllyasviel/style2paints/blob/master/temps/show/sketches/5.jpg). The result is as the following:
 
-Style2Paints V4.5 performance (CPU mode):
+**(1) Style2Paints V4.5 (CPU mode):**
 
 | Procedure | Time Cost |
 | --- | --- |
@@ -66,7 +66,8 @@ Style2Paints V4.5 performance (CPU mode):
 
 ("Colorization for the first time" needs "slicing process", so it requires more time.)
 
-Style2Paints V3 performance (CPU mode):
+
+**(2) Style2Paints V3 (CPU mode):**
 
 | Procedure | Time Cost |
 | --- | --- |
