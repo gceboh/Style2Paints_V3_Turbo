@@ -38,11 +38,9 @@ paste==2.0.3
 4. Visit `http://127.0.0.1:8232/` in your web browser. (Default server port has been changed.)
 
 
-# Style2Paints V3 is much faster than V4.5 (CPU Mode)
+# Under CPU Mode, Style2Paints V3 is much faster than V4.5
 
-I conducted a performance test.
-
-My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful.
+I conducted a performance test.My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful.
 
 ```
 CPU: Intel Core i5 3230M
