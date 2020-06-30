@@ -8,7 +8,7 @@ This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for th
 
 After applying this patch, users (especially with an old/low-end CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X faster**. In other words, colorization time is shortened to **50%** of the original.
 
-It is intended for machine learning researchers/programmers, rather than artists. It pays more attention on performance than art quality.
+**It is intended for machine learning researchers/programmers, rather than artists**. It pays more attention on performance than art quality.
 
 
 Related issue: [[Performance Tuning] Workarounds for Intel HD Graphics/AMD GPU Users](https://github.com/lllyasviel/style2paints/issues/146).
