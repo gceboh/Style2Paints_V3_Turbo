@@ -82,14 +82,14 @@ From the above result, we can draw a conclusion that: **under CPU mode, Style2Pa
 
 Style2Paints V3 resize all the input sketches to 1024px (short edge). By default, this patch reduce the resolution (short edge) of all the input sketches to 512px. (That is 50% of the original resolution.) As shown in the following results, **this simple optimization will shorten colorization time to 50% of the original!** 
 
-(1) Sketch Preparation:
+**(1) Sketch Preparation:**
 
 | Acceleration Method | Time Cost |
 | --- | --- |
 | No (Official Version) | 26 s |
 | Reduce resolution | 7 s |
 
-(2) Colorization:
+**(2) Colorization:**
 
 | Acceleration Method | Time Cost |
 | --- | --- |
