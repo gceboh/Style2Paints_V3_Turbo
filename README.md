@@ -120,7 +120,7 @@ To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `c
 
 Note that:
 
-(1) The closer the zoom factor is to 1, the better the quality of the painting. However, zoom factor will lead to slower colorization process. So it's important to find a balance between speed and quality. The recommended `sketch_zoom_factor` is `0.5`.
+(1) The closer the zoom factor is to `1.0`, the better the quality of the painting. However, zoom factor will lead to slower colorization process. So it's important to find a **balance** between speed and quality. The recommended `sketch_zoom_factor` is `0.5`.
 
 (2) **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`， i.e. `256px`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
 
@@ -128,8 +128,8 @@ Note that:
 # Fix
 - Change default server port. ([Issue #126](https://github.com/lllyasviel/style2paints/issues/126))
 - Fix out-of-date tutorial link, currently link to [V3's readme.md](https://github.com/lllyasviel/style2paints/tree/master/V3).
-- Show loading model info when initializing.
-- Save color hints in .json file by default
+- Print loading model info when initializing. Print info when colorizing.
+- Save color hints in `.json` file by default
 
 ---
 
