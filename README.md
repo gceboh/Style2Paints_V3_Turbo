@@ -38,9 +38,9 @@ paste==2.0.3
 4. Visit `http://127.0.0.1:8232/` in your web browser. (Default server port has been changed.)
 
 
-# Under CPU Mode, Style2Paints V3 is much faster than V4.5
+# Performance comparison between V3 and V4.5 (CPU mode)
 
-I conducted a performance test.My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful.
+I conducted a performance test. My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful.
 
 ```
 CPU: Intel Core i5 3230M
@@ -71,7 +71,7 @@ Style2Paints V3 performance (CPU mode):
 | Sketch Preparation | 26 s |
 | Colorization | 1 min 5 s |
 
-From the above result, we can draw a conclusion that: under CPU mode, **Style2Paints V3 is about 5X faster than V4.5**. So, for users who use CPU to colorize, if you feel V4.5's colorization process is too slow, I recommend using Style2Paints V3 instead. But waiting for 1 minute each time is still too slow, so can it run faster?
+From the above result, we can draw a conclusion that: **under CPU mode, Style2Paints V3 is about 5X faster than V4.5**. So, for users who use CPU to colorize, if you feel V4.5's colorization process is too slow, I recommend using Style2Paints V3 instead. But waiting for 1 minute each time is still too slow, so can it run faster?
 
 
 # Performance Tuning
