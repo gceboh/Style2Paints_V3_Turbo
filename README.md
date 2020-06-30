@@ -6,7 +6,7 @@ Style2Paints's official repository: [Link](https://github.com/lllyasviel/style2p
 
 This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Intel HD Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, currently Style2Paints V4.5 can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration.
 
-After applying this patch, users (especially with an old/low-end CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X faster**. In other words, colorization time is shortened to **50%** of the original.
+After applying this patch, users (especially with an old/low-end/laptop CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X faster**. In other words, colorization time is shortened to **50%** of the original.
 
 **It is intended for machine learning researchers/programmers, rather than artists**. It pays more attention on performance than art quality.
 
