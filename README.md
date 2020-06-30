@@ -9,13 +9,13 @@ This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for th
 It is intended for machine learning researchers/programmers, rather than artists. It pays more attention on performance than art quality.
 
 
-Related issue #
+Related issue: [[Performance Tuning] Workarounds for Intel HD Graphics/AMD GPU Users](https://github.com/lllyasviel/style2paints/issues/146).
 
 
 # Usage
 1. Download the official [Style2Paints V3 Repo](https://github.com/lllyasviel/style2paints/tree/b0a529e70ec1414b53bf5e990d614b121086cd77/V3). 
 
-2. [V3's installation guide](https://github.com/lllyasviel/style2paints/issues/100).
+2. Style2Paints V3's [offline installation guide](https://github.com/lllyasviel/style2paints/issues/100).
 
 Please use the following requirement file instead to avoid [package version conflict](https://github.com/lllyasviel/style2paints/issues/100#issuecomment-645709881). Version of each package has been set to near the release date of Style2paints V3 (2018.4.28).
 
@@ -45,7 +45,7 @@ paste==2.0.3
 I conducted a performance test. My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful.
 
 ```
-CPU: Intel Core i5 3230M
+CPU: Intel Core i5 3230M (2 cores, 4 threads)
 GPU: Intel HD Graphics 4000 (No stand-alone Graphics Card)
 RAM: 8 GB DDR3
 (Physical memory is enough for Style2Paints V3/V4.5. No system stuck problem during colorization.)
