@@ -105,19 +105,25 @@ Style2Paints V3 resizes all the input sketches to 1024px (short edge). Under def
 
 ### About Painting Quality
 
-The optimized painting result will be slightly different from the original ones, but they looks **good enough** (**achieve about 75% of the original quality**), among the sketches I have tested. When the resolution is set among a proper range, the quality is good enough. The following are some painting quality comparison:
+The optimized painting result will be slightly different from the original ones, but they looks **good enough** (**achieve about 75% of the original quality**), among the sketches I have tested. When the resolution is set among a proper range, the quality is good enough (at least acceptable). The following are some painting quality comparison:
 
-**Official Version (1024px):**
-![before](result_comparison/1-official-example/1024px.png)
-
-**After Optimization (512px):**
-![after](result_comparison/1-official-example/512px.png)
-
-**Official Version (1024px):**
-![before](result_comparison/2-official-example/1024px.png)
+**(1) Official Version (1024px):**
+![before](result_comparison/official-example-1/1024px.png)
 
 **After Optimization (512px):**
-![after](result_comparison/2-official-example/512px.png)
+![after](result_comparison/official-example-1/512px.png)
+
+**(2) Official Version (1024px):**
+![before](result_comparison/official-example-2/1024px.png)
+
+**After Optimization (512px):**
+![after](result_comparison/official-example-2/512px.png)
+
+**(3) Official Version (1024px):**
+![before](result_comparison/official-example-3/1024px.png)
+
+**After Optimization (512px):**
+![after](result_comparison/official-example-3/512px.png)
 
 For more comparisons, please refer to the [result comparison](https://github.com/gceboh/Style2Paints_V3_Turbo/tree/master/result_comparison) folder.
 
@@ -125,14 +131,16 @@ The side effect is that the paintings becomes a bit blurry than the original one
 
 If you still want to see clearer image, here are two workarounds: (1) Reduce your browser's windows size, because smaller image looks clearer. This is especially useful for a large-sized monitor. (2) After painting on a low-resolution sketch, tweak the resolution setting and then apply the same color hints to a high-resolution sketch. You will get a similar, but high-resolution colorization result.
 
-### How to tweak the input sketch's resolution?
+### How to choose a proper zoom factor?
 To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `config.ini`. It is safe to modify the ini file during the program is running. After that, ALWAYS remember to **REFRESH** the webpage. Otherwise, it may cause some strange bugs.
 
 Note that:
 
-(1) The closer the zoom factor is to `1.0`, the better the quality of the painting. However, higher zoom factor will lead to slower colorization process. So it's important to find a **balance** between speed and quality. The recommended `sketch_zoom_factor` is `0.5`.
+(1) Set `sketch_zoom_factor` to `1.0` means the same resolution as official version. (As if no patch is installed.)
 
-(2) **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`， i.e. `256px`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
+(2) The closer the zoom factor is to `1.0`, the better the quality of the painting. However, higher zoom factor will lead to slower colorization process. So it's important to find a **balance** between speed and quality. The recommended `sketch_zoom_factor` is `0.5`.
+
+(3) **Warning**: When the sketch's resolution factor is too low (e.g., `0.25`， i.e. `256px`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
 
 
 # Fix
