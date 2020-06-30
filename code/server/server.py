@@ -186,9 +186,11 @@ def request_result():
     ID = datetime.datetime.now().strftime('H%HM%MS%S')
     room_path = 'game/rooms/' + room
     options_str = request.forms.get("options")
-    if debugging:
-        with open(room_path + '/options.' + ID + '.json', 'w') as f:
-            f.write(options_str)
+    
+    # save color hint
+    with open(room_path + '/options.' + ID + '.json', 'w') as f:
+        f.write(options_str)
+
     options = json.loads(options_str)
     method = options["method"]
     sketch = cv2.imread(room_path + '/sketch.' + method + '.jpg', cv2.IMREAD_GRAYSCALE)

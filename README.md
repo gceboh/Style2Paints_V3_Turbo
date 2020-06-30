@@ -63,6 +63,8 @@ Style2Paints V4.5 performance (CPU mode):
 | Colorization - the first time | 6 min 43 s |
 | Colorization - the second time | 5 min 30 s |
 
+("Colorization for the first time" needs "slicing process", so it requires more time.)
+
 Style2Paints V3 performance (CPU mode):
 
 | Procedure | Time Cost |
@@ -71,7 +73,7 @@ Style2Paints V3 performance (CPU mode):
 | Sketch Preparation | 26 s |
 | Colorization | 1 min 5 s |
 
-From the above result, we can draw a conclusion that: under CPU mode, **Style2Paints V3 is about 5X faster than V4.5**. So, for users who use CPU to colorize, if you feel V4.5's colorization process is too slow, I recommend using Style2Paints V3.
+From the above result, we can draw a conclusion that: under CPU mode, **Style2Paints V3 is about 5X faster than V4.5**. So, for users who use CPU to colorize, if you feel V4.5's colorization process is too slow, I recommend using Style2Paints V3 instead. But waiting for 1 minute each time is still too slow, so can it run faster?
 
 
 # Performance Tuning
@@ -83,15 +85,15 @@ Style2Paints V3 resize all the input sketches to 1024px (short edge). By default
 
 | Acceleration Method | Time Cost |
 | --- | --- |
-| Official Version | 26 s |
-| + Reduce resolution | 7 s |
+| No (Official Version) | 26 s |
+| Reduce resolution | 7 s |
 
 (2) Colorization:
 
 | Acceleration Method | Time Cost |
 | --- | --- |
-| Official Version | 1 min 5 s |
-| + Reduce resolution | 26 s |
+| No (Official Version) | 1 min 5 s |
+| Reduce resolution | 26 s |
 
 (This method is inspired by [lllyasviel's advice](https://github.com/lllyasviel/PaintingLight/issues/2#issuecomment-618914866) on another non-deep-learning project.)
 
@@ -120,15 +122,16 @@ To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `c
 
 Note that:
 
-(1) Higher resolution setting will lead to slower colorization process.
+(1) The closer the zoom factor is to 1, the better the quality of the painting. However, zoom factor will lead to slower colorization process. So it's important to find a balance between speed and quality. The recommended `sketch_zoom_factor` is `0.5`.
 
-(2) The recommended `sketch_zoom_factor` is `0.5`. **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`， i.e. `256px`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
+(2) **Warning**: When the sketch's resolution factor is too small (e.g., `0.25`， i.e. `256px`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
 
 
 # Fix
 - Change default server port. ([Issue #126](https://github.com/lllyasviel/style2paints/issues/126))
 - Fix out-of-date tutorial link, currently link to [V3's readme.md](https://github.com/lllyasviel/style2paints/tree/master/V3).
 - Show loading model info when initializing.
+- Save color hints in .json file by default
 
 ---
 
