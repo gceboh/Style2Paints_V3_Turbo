@@ -4,8 +4,10 @@ import configparser
 ini_config = configparser.ConfigParser()
 
 
-device_A = '/gpu:0'
-device_B = '/gpu:0'
+# device_A = '/gpu:0'
+# device_B = '/gpu:0'
+device_A = '/cpu:0'
+device_B = '/cpu:0'
 multiple_process = True
 debugging = False
 
