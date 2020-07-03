@@ -177,7 +177,7 @@ Note that:
 Patch V1.1:
 - New function: Support of uploading previous saved color hint points. ([Issue #47](https://github.com/lllyasviel/style2paints/issues/47), [Issue #116](https://github.com/lllyasviel/style2paints/issues/116))
 - fix:"Error 403 Forbidden"(Access Denied) ([Issue #84](https://github.com/lllyasviel/style2paints/issues/84), [Issue #100](https://github.com/lllyasviel/style2paints/issues/100))
-- fix: change device to `/cpu:0`.
+- fix: change device to `/cpu:0`. ([Issue #131](https://github.com/lllyasviel/style2paints/issues/131))
 
 Patch V1.0:
 - Acceleration: Reduce image resolution to achieve up to 2X faster.
