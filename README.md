@@ -20,6 +20,7 @@ Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU
 
 [2020.06.30] patch v1.0: Acceleration: Reduce image resolution to achieve 2X faster.
 
+For detailed info, please refer to the [ChangeLog](#changelog).
 
 # Usage
 
@@ -151,7 +152,14 @@ For more comparisons, please refer to the [result comparison](https://github.com
 
 The side effect is that the paintings becomes a bit blurry than the original ones due to lower resolution, but the resolution is **enough for viewing on laptop's small screen**. In addition, it's **enough for machine learning beginners**.
 
-If you still want to see clearer image, here are two workarounds: (1) Reduce your browser's windows size, because smaller image looks clearer. This is especially useful for a large-sized monitor. (2) After painting on a low-resolution sketch, tweak the resolution setting and then apply the same color hints to a high-resolution sketch. You will get a similar, but high-resolution colorization result.
+Tip: For a large-sized monitor, reducing browser's windows size can makes the images look clearer.
+
+### Still want to see high-quality & clearer painting results? 
+
+Here is the workarounds: 
+
+After painting on a low-resolution sketch, tweak the image resolution setting. (Tutorial lies in the next section.) Then **apply the same color hints to a high-resolution sketch** (by using "loading previously saved hint points" function). You will get a similar, but high-resolution colorization result with higher quality.
+
 
 ### How to choose a proper zoom factor?
 To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `/server/config.ini`. It is safe to modify the ini file during the program is running. After that, ALWAYS remember to **REFRESH** the webpage. Otherwise, it may cause some strange bugs.
@@ -165,9 +173,11 @@ Note that:
 (3) **Warning**: When the sketch's resolution factor is too low (e.g., `0.25`， i.e. `256px`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
 
 
-# Change log
+# ChangeLog
 Patch V1.1:
 - New function: Support of uploading previous saved color hint points. ([Issue #47](https://github.com/lllyasviel/style2paints/issues/47), [Issue #116](https://github.com/lllyasviel/style2paints/issues/116))
+- fix:"Error 403 Forbidden"(Access Denied) ([Issue #84](https://github.com/lllyasviel/style2paints/issues/84), [Issue #100](https://github.com/lllyasviel/style2paints/issues/100))
+- fix: change device to `/cpu:0`.
 
 Patch V1.0:
 - Acceleration: Reduce image resolution to achieve up to 2X faster.
