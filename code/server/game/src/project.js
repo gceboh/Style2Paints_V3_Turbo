@@ -449,7 +449,7 @@ require = function i(r, d, l) {
         cc._RF.pop()
     }
     , {}],
-    FileInputs: [function(e, n, o) {
+    FileInputs: [function(e, n, o) {//create an input element for upload images
         "use strict";
         var t;
         cc._RF.push(n, "c788f2OU/NKK6/I0R+XznYo", "FileInputs"),
@@ -966,7 +966,22 @@ require = function i(r, d, l) {
             },
             onUploadSketchClicked: function() {
                 window.uploading || window.fileSelector.activate(function(e) {
-                    window.controller.onClearClicked(),
+                    window.controller.onClearClicked();//clear canvas
+
+                    upload_color_hint();//upload color hint points
+
+
+                    function upload_color_hint(){//upload color hint points
+                        var prompt_msg="Want to load previous color hint points?\nPlease paste the JSON file content here: \n\n"
+                        prompt_msg+="(If you don't need to load previous hint points, leave it blank and click OK/Cancel.)"
+                        var hint_json_value = prompt(prompt_msg);
+                        if(null != hint_json_value && ""!=hint_json_value){
+                            window.creativeCanvas.points_XYRGBR = JSON.parse(hint_json_value).points;
+                            window.creativeCanvas.finish();//update canvas
+                        }
+                    }
+
+                    
                     window.creativeCanvas.cache = [],
                     window.current_room = "new",
                     window.current_step = "new",
