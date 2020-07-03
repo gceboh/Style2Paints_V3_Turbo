@@ -31,12 +31,12 @@ def get_request_image(name):
 
 @route('/<filename:path>')
 def send_static(filename):
-    return static_file(filename, root='game/')
+    return static_file(filename, root='./game')
 
 
 @route('/')
 def send_static():
-    return static_file("index.html", root='game/')
+    return static_file("index.html", root='./game')
 
 
 sketch_upload_pool = []
