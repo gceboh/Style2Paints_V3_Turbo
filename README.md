@@ -47,6 +47,8 @@ scikit-image==0.13.1
 paste==2.0.3
 ```
 
+(Performance note: Currently I suggest you install TensorFlow through `pip` rather than `conda`. The reason is that, under default setting, TensorFlow installed in `pip` uses all the CPU cores, while TensorFlow installed in `conda` uses only one CPU core, which is much slower. The reason is unknown.)
+
 2. Install this unofficial patch:
 Use the patch files in the `code/` dir to replace the corresponding official files.
 
