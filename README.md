@@ -14,10 +14,21 @@ After applying this patch, users (especially with an old/low-end/laptop CPU) wil
 Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU Users](https://github.com/lllyasviel/style2paints/issues/146).
 
 
-# Usage
-1. Download the official [Style2Paints V3 Repo](https://github.com/lllyasviel/style2paints/tree/b0a529e70ec1414b53bf5e990d614b121086cd77/V3). 
+# What's new
 
-2. Style2Paints V3's [offline installation guide](https://github.com/lllyasviel/style2paints/issues/100).
+[2020.07.03] patch v1.1: New function: Support of loading previously saved color hint points.
+
+[2020.06.30] patch v1.0: Acceleration: Reduce image resolution to achieve 2X faster.
+
+
+# Usage
+
+## How to install this patch?
+1. Install the official Style2Paints V3.
+
+1.1 Download the official [Style2Paints V3 Repo](https://github.com/lllyasviel/style2paints/tree/b0a529e70ec1414b53bf5e990d614b121086cd77/V3). 
+
+1.2 Style2Paints V3's [offline installation guide](https://github.com/lllyasviel/style2paints/issues/100).
 
 Please use the following requirement file instead to avoid [package version conflict](https://github.com/lllyasviel/style2paints/issues/100#issuecomment-645709881). Version of each package has been set to near the release date of Style2paints V3 (2018.4.28).
 
@@ -35,9 +46,19 @@ scikit-image==0.13.1
 paste==2.0.3
 ```
 
-3. Use the patch files in the `code/` dir to replace the official files.
+2. Install this unofficial patch:
+Use the patch files in the `code/` dir to replace the corresponding official files.
 
-4. Visit `http://127.0.0.1:8232/` in your web browser. (Default server port has been changed.)
+3. After launching the server by `python server.py`, visit `http://127.0.0.1:8232/` in your web browser. (Default server port has been changed.)
+
+
+## How to save/load color hint points?
+
+Saving color hint: No need for extra operation. Every time you click the 'colorize' button, the hint info will be auto saved in `server\game\rooms\[date-time]\options.[time].json`.
+
+Loading color hint: After you upload a sketch, an dialog for uploading color hint will be shown. Copy the file content in `options.[time].json`, and paste it in the input box. After click ok, the color hints will be added to the canvas.
+
+Note that even after you tuning the input sketch's resolution by modifying config file, you can still load the previously saved hint points.
 
 
 # Performance Tuning
@@ -55,6 +76,7 @@ Hard disk: 5400 rpm. No SSD.
 
 OS: Win 8.1 x64
 Python environment management: VirtualEnv
+Browser: Chrome 83
 ```
 
 I tested Style2Paints V3/V4.5 with [this sketch](https://github.com/lllyasviel/style2paints/blob/master/temps/show/sketches/5.jpg). The result is as the following:
@@ -132,7 +154,7 @@ The side effect is that the paintings becomes a bit blurry than the original one
 If you still want to see clearer image, here are two workarounds: (1) Reduce your browser's windows size, because smaller image looks clearer. This is especially useful for a large-sized monitor. (2) After painting on a low-resolution sketch, tweak the resolution setting and then apply the same color hints to a high-resolution sketch. You will get a similar, but high-resolution colorization result.
 
 ### How to choose a proper zoom factor?
-To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `config.ini`. It is safe to modify the ini file during the program is running. After that, ALWAYS remember to **REFRESH** the webpage. Otherwise, it may cause some strange bugs.
+To tweak the input sketch's resolution, please modify `sketch_zoom_factor` in `/server/config.ini`. It is safe to modify the ini file during the program is running. After that, ALWAYS remember to **REFRESH** the webpage. Otherwise, it may cause some strange bugs.
 
 Note that:
 
@@ -143,11 +165,16 @@ Note that:
 (3) **Warning**: When the sketch's resolution factor is too low (e.g., `0.25`， i.e. `256px`), the network will output a bad colorization result! Although Fully Convolutional Network (FCN) can process arbitrary size of image in theory, it can't produce high quality result for very different size of input. The reason is that it's impossible for a limited training procedure to cover all the input size.
 
 
-# Fix
-- Change default server port. ([Issue #126](https://github.com/lllyasviel/style2paints/issues/126))
-- Fix out-of-date tutorial link, currently link to [V3's readme.md](https://github.com/lllyasviel/style2paints/tree/master/V3).
-- Print loading model info when initializing. Print info when colorizing.
-- Save color hints in `.json` file by default
+# Change log
+Patch V1.1:
+- New function: Support of uploading previous saved color hint points. ([Issue #47](https://github.com/lllyasviel/style2paints/issues/47), [Issue #116](https://github.com/lllyasviel/style2paints/issues/116))
+
+Patch V1.0:
+- Acceleration: Reduce image resolution to achieve up to 2X faster.
+- Enable saving color hints in `.json` file by default. (Actually it is a fuction for debugging in the official version.)
+- fix: Change default server port. ([Issue #126](https://github.com/lllyasviel/style2paints/issues/126))
+- fix: Fix out-of-date tutorial link, currently link to [V3's readme.md](https://github.com/lllyasviel/style2paints/tree/master/V3).
+- improve: Print loading model info when initializing. Print progress info when colorizing.
 
 ---
 
