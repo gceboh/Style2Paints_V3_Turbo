@@ -128,12 +128,12 @@ def handle_painting_pool():
         composition = go_tail(composition)
         cv2.imwrite(room_path + '/composition.' + ID + '.jpg', composition)
 
+        print('generating final painting... (4/4)')
         painting_function = go_head
         if method == 'rendering':
             painting_function = go_neck
         print('current mode: ' + method)
 
-        print('generating final painting... (4/4)')
         result = painting_function(
             sketch=sketch_1024,
             global_hint=k_resize(composition, 14),
@@ -146,6 +146,7 @@ def handle_painting_pool():
         cv2.imwrite('results/' + room + '.' + ID + '.jpg', result)
         if debugging:
             cv2.imwrite(room_path + '/icon.' + ID + '.jpg', max_resize(result, 128))
+        
         print('Colorization complete.')
     return
 
