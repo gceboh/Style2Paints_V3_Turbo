@@ -52,7 +52,7 @@ def handle_sketch_upload_pool():
         room, sketch, method = sketch_upload_pool[0]
         del sketch_upload_pool[0]
         room_path = 'game/rooms/' + room
-        print('processing sketch in ' + room_path)
+        print('processing sketch... (room: ' + room_path + ')')
         if os.path.exists(room_path + '/sketch.improved.jpg'):
             improved_sketch = cv2.imread(room_path + '/sketch.improved.jpg')
             print('lucky to find improved sketch')
@@ -96,43 +96,79 @@ def handle_painting_pool():
         room_path = 'game/rooms/' + room
         print('processing painting in ' + room_path)
 
-        print('sketch pre-processing... (1/4)')
+        # Check cache
+        cache_path=room_path + '/cache'
+        last_points_json_path=cache_path+'/last_hint_points.json'
+        last_composition_path=cache_path+'/composition_'+ method +'.jpg' # note that different mode needs individual cache
+        
+        # check whether cache is valid
+        is_draft_cache_valid = False
+        if True == is_draft_cache_enabled and os.path.exists(last_composition_path): # whether draft(composion) under current mode exists in cache
+            if os.path.exists(last_points_json_path): # whether last_draft_points exists in cache
+                # load last_draft_points from cache
+                with open(last_points_json_path, 'r', encoding='utf-8') as points_json_file:
+                    last_draft_points=json.load(points_json_file)
+                
+                # check difference
+                # create a list of current draft points
+                current_draft_points=[]
+                for point in points:
+                    x, y, r, g, b, t = point
+                    if 0 == t:# type is draft points
+                        current_draft_points.append(point)
+
+                # check whether draft hint points are the same with the previous step
+                if current_draft_points == last_draft_points:
+                    # draft hint points remain the same with the previous step
+                    # so draft cache is valid
+                    is_draft_cache_valid = True
+                    print('draft points remain the same, draft cache is valid.')
+
         # tweak the input sketch's resolution by factor
         tweaked_input_resolution=int(64 * get_sketch_resolution_factor())
-        sketch_1024 = k_resize(sketch, tweaked_input_resolution)
-        if os.path.exists(room_path + '/sketch.de_painting.jpg') and method == 'rendering':
-            vice_sketch_1024 = k_resize(cv2.imread(room_path + '/sketch.de_painting.jpg', cv2.IMREAD_GRAYSCALE), tweaked_input_resolution)
-            sketch_256 = mini_norm(k_resize(min_k_down(vice_sketch_1024, 2), 16))
-            sketch_128 = hard_norm(sk_resize(min_k_down(vice_sketch_1024, 4), 32))
-        else:
-            sketch_256 = mini_norm(k_resize(min_k_down(sketch_1024, 2), 16))
-            sketch_128 = hard_norm(sk_resize(min_k_down(sketch_1024, 4), 32))
-        if debugging:
-            cv2.imwrite(room_path + '/sketch.128.jpg', sketch_128)
-            cv2.imwrite(room_path + '/sketch.256.jpg', sketch_256)
 
-        print('generating 1st draft (baby)... (2/4)')
-        baby = go_baby(sketch_128, opreate_normal_hint(ini_hint(sketch_128), points, type=0, length=1))
-        baby = de_line(baby, sketch_128)
-        for _ in range(16):
-            baby = blur_line(baby, sketch_128)
-        baby = go_tail(baby)
-        baby = clip_15(baby)
-        if debugging:
-            cv2.imwrite(room_path + '/baby.' + ID + '.jpg', baby)
+        if False == is_draft_cache_enabled or False == is_draft_cache_valid: # draft cache is disabled or invalid
+            print('sketch pre-processing... (1/4)')
+            sketch_1024 = k_resize(sketch, tweaked_input_resolution)
+            if os.path.exists(room_path + '/sketch.de_painting.jpg') and method == 'rendering':
+                vice_sketch_1024 = k_resize(cv2.imread(room_path + '/sketch.de_painting.jpg', cv2.IMREAD_GRAYSCALE), tweaked_input_resolution)
+                sketch_256 = mini_norm(k_resize(min_k_down(vice_sketch_1024, 2), 16))
+                sketch_128 = hard_norm(sk_resize(min_k_down(vice_sketch_1024, 4), 32))
+            else:
+                sketch_256 = mini_norm(k_resize(min_k_down(sketch_1024, 2), 16))
+                sketch_128 = hard_norm(sk_resize(min_k_down(sketch_1024, 4), 32))
+            if debugging:
+                cv2.imwrite(room_path + '/sketch.128.jpg', sketch_128)
+                cv2.imwrite(room_path + '/sketch.256.jpg', sketch_256)
 
-        print('generating 2nd draft (composition)... (3/4)')
-        composition = go_gird(sketch=sketch_256, latent=d_resize(baby, sketch_256.shape), hint=ini_hint(sketch_256))
-        if line:
-            composition = emph_line(composition, d_resize(min_k_down(sketch_1024, 2), composition.shape), lineColor)
-        composition = go_tail(composition)
-        cv2.imwrite(room_path + '/composition.' + ID + '.jpg', composition)
+            print('generating 1st draft (baby)... (2/4)')
+            baby = go_baby(sketch_128, opreate_normal_hint(ini_hint(sketch_128), points, type=0, length=1))
+            baby = de_line(baby, sketch_128)
+            for _ in range(16):
+                baby = blur_line(baby, sketch_128)
+            baby = go_tail(baby)
+            baby = clip_15(baby)
+            if debugging:
+                cv2.imwrite(room_path + '/baby.' + ID + '.jpg', baby)
 
-        print('generating final painting... (4/4)')
+            print('generating 2nd draft (composition)... (3/4)')
+            composition = go_gird(sketch=sketch_256, latent=d_resize(baby, sketch_256.shape), hint=ini_hint(sketch_256))
+            if line:
+                composition = emph_line(composition, d_resize(min_k_down(sketch_1024, 2), composition.shape), lineColor)
+            composition = go_tail(composition)
+            cv2.imwrite(room_path + '/composition.' + ID + '.jpg', composition)
+        else: # draft cache is valid, use cache
+            print('Turbo: loading 2nd draft (composition) directly from cache... (3/4)')
+            sketch_1024=k_resize(sketch, tweaked_input_resolution)
+            composition=cv2.imread(last_composition_path) # read previously generated draft from cache
+            cv2.imwrite(room_path + '/composition.' + ID + '.jpg', composition)
+
+        # generate final painting
         painting_function = go_head
         if method == 'rendering':
             painting_function = go_neck
         print('current mode: ' + method)
+        print('generating final painting... (4/4)')
 
         result = painting_function(
             sketch=sketch_1024,
@@ -148,6 +184,23 @@ def handle_painting_pool():
             cv2.imwrite(room_path + '/icon.' + ID + '.jpg', max_resize(result, 128))
         
         print('Colorization complete.')
+
+        # Save draft and draft points to cache
+        if True == is_draft_cache_enabled:
+            # create a list of current draft points
+            draft_points=[]
+            for point in points:
+                x, y, r, g, b, t = point
+                if 0 == t:# type is draft points
+                    draft_points.append(point)
+            # create cache dir
+            os.makedirs(cache_path, exist_ok=True)
+            # save current draft points to cache
+            with open(last_points_json_path, 'w', encoding='utf-8') as points_json_file:
+                json.dump(draft_points, points_json_file)
+            # save draft (composition) to cache
+            cv2.imwrite(last_composition_path, composition)
+            print('Draft cached.')
     return
 
 

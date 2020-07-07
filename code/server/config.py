@@ -10,6 +10,7 @@ device_A = '/cpu:0'
 device_B = '/cpu:0'
 multiple_process = True
 debugging = False
+is_draft_cache_enabled=True # enable draft cache for acceleration
 
 
 # load "zoom factor" from ini config file
