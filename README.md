@@ -136,7 +136,9 @@ Style2Paints V3 resizes all the input sketches to 1024px (short edge). Under def
 
 ### About Painting Quality
 
-The optimized painting result will be slightly different from the original ones, but they looks **good enough** (**achieve about 75% of the original quality**), among the sketches I have tested. When the resolution is set among a proper range, the quality is good enough (at least acceptable). The following are some painting quality comparison:
+The optimized painting result will be slightly different from the original ones, but they looks **good enough** (**achieve about 75% of the original quality**), among the sketches I have tested. When the resolution is set among a proper range, the quality is good enough (at least acceptable). 
+
+The following are some painting quality comparison: (click the image to view clearer results.)
 
 **(1) Official Version (1024px):**
 ![before](result_comparison/official-example-1/1024px.png)
@@ -157,6 +159,7 @@ The optimized painting result will be slightly different from the original ones,
 ![after](result_comparison/official-example-3/512px.png)
 
 **(4) Auto Colorization
+
 Official Version (1024px):**
 ![before](result_comparison/official-example-4-auto-colorization/1024px.png)
 
