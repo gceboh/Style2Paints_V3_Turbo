@@ -210,7 +210,7 @@ Patch V1.1:
 
 Patch V1.0:
 - Acceleration: Reduce image resolution to achieve up to 2X faster.
-- Enable saving color hints in `.json` file by default. (Actually it is a fuction for debugging in the official version.)
+- Enable saving color hints in `.json` file by default. (Actually it is a function for debugging in the official version.)
 - fix: Change default server port. ([Issue #126](https://github.com/lllyasviel/style2paints/issues/126))
 - fix: Fix out-of-date tutorial link, currently link to [V3's readme.md](https://github.com/lllyasviel/style2paints/tree/master/V3).
 - improve: Print loading model info when initializing. Print progress info when colorizing.
