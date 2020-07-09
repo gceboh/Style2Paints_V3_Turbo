@@ -156,6 +156,13 @@ The optimized painting result will be slightly different from the original ones,
 **After Optimization (512px):**
 ![after](result_comparison/official-example-3/512px.png)
 
+**(4) Auto Colorization
+Official Version (1024px):**
+![before](result_comparison/official-example-4-auto-colorization/1024px.png)
+
+**After Optimization (512px):**
+![after](result_comparison/official-example-4-auto-colorization/512px.png)
+
 For more comparisons, please refer to the [result comparison](https://github.com/gceboh/Style2Paints_V3_Turbo/tree/master/result_comparison) folder.
 
 The side effect is that the paintings becomes a bit blurry than the original ones due to lower resolution, but the resolution is **enough for viewing on laptop's small screen**. In addition, it's **enough for machine learning beginners**.
