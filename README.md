@@ -1,8 +1,8 @@
+Style2Paints's official repository: [Link](https://github.com/lllyasviel/style2paints). (Thank the authors for providing such an awesome colorization project.)
+
 # Style2Paints_V3_Turbo
 
 Develop stage: Beta (More test is needed)
-
-Style2Paints's official repository: [Link](https://github.com/lllyasviel/style2paints). (Thank the authors for providing such an awesome colorization project.)
 
 This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Integrated Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, currently Style2Paints V4.5 can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration.
 
@@ -13,8 +13,8 @@ After applying this patch, users (especially with an old/low-end/laptop CPU) wil
 Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU Users](https://github.com/lllyasviel/style2paints/issues/146).
 
 **Features:**
-- Acceleration: Reduce image resolution to achieve up to 2X faster.
-- Acceleration: Use draft cache to accelerate.
+- Acceleration 1: Reduce image resolution to achieve up to 2X faster.
+- Acceleration 2: Use draft cache to accelerate.
 - Adjustable output resolution, so you can find a balance between speed and quality.
 - Support of loading previously saved color hint points.
 
