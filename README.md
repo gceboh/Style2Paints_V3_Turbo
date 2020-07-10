@@ -202,6 +202,7 @@ The following is the performance comparison. **This acceleration method can save
 
 (* The above time cost are the second time of colorization. Draft points remain the same with the previous step, and only accurate points are changed.)
 
+If you want to disable draft cache, please modify `config.py`.
 
 # ChangeLog
 Patch V2.0:
