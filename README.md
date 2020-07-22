@@ -6,21 +6,33 @@ Develop stage: Beta (More test is needed)
 
 This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Integrated Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, currently Style2Paints V4.5 can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration.
 
-After applying this patch, users (especially with an old/low-end/laptop CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X faster**. In other words, **colorization time is shortened to 50% of the original**.
+After applying this patch, users (especially with an old/low-end/laptop CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X ~ 6X faster**. In other words, **colorization time is shortened to less than 16% ~ 50% of the original**.
 
-**It is intended for machine learning researchers/programmers, rather than artists**. It pays more attention on performance than art quality.
+The following is performance comparisons on an old CPU: (**If you have a more powerful CPU, the time cost will be shorter.**)
+
+| Acceleration Method | Output's Resolution | Time Cost |
+| --- | --- | --- |
+| No (Official Version) | 1024px  | 1 min 5 s |
+| Reduce input's resolution to 50%  | 512px | 26 s |
+| Reduce input's resolution to 50% & Using Draft Cache | 512px | 15 s |
+| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution | 256px | **10 s** |
+
+**This acceleration patch is intended for machine learning researchers/programmers, rather than artists**. It pays more attention on performance than art quality.
 
 Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU Users](https://github.com/lllyasviel/style2paints/issues/146).
 
 **Features:**
 - Acceleration 1: Reduce image resolution to achieve up to 2X faster.
 - Acceleration 2: Use draft cache to accelerate.
+- Acceleration 3: Temporarily disable image super-resolution.
 - Adjustable output resolution, so you can find a balance between speed and quality.
 - Support of loading previously saved color hint points.
 
 
 # What's new
-[2020.07.09] patch v2.0: Use draft cache to accelerate.
+[2020.07.22] Patch V2.1: Acceleration: Temporarily disable image super-resolution.
+
+[2020.07.09] patch v2.0: Acceleration: Use draft cache to accelerate.
 
 [2020.07.03] patch v1.1: New function: Support of loading previously saved color hint points.
 
@@ -55,6 +67,13 @@ paste==2.0.3
 
 (Performance note: Currently I suggest you install TensorFlow through `pip` rather than `conda`. The reason is that, under default setting, TensorFlow installed in `pip` uses all the CPU cores, while TensorFlow installed in `conda` uses only one CPU core, which is much slower. The reason is unknown.)
 
+If you still prefer `conda` environment, install `tensorflow-mkl` instead of `tensorflow`. `tensorflow-mkl`'s performance under `conda` is nearly the same as `tensorflow` under `pip`, but it will reduce CPU usage significantly.
+```
+conda install python==3.6.8
+conda install bottle==0.12.13 -c conda-forge
+conda install tensorflow-mkl==1.13.1 keras==2.2.4 gevent==1.2.2 h5py==2.7.1 opencv==3.4.1 scikit-image==0.13.1 paste==2.0.3 numpy==1.14.5
+```
+
 2. Install this unofficial patch:
 Use the patch files in the `code/` dir to replace the corresponding official files.
 
@@ -74,7 +93,8 @@ Note that even after you tuning the input sketch's resolution by modifying confi
 
 ## V3/V4.5 Performance Comparison (CPU Mode)
 
-I conducted a performance test. My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful.
+I conducted a performance test. My hardware and software environment is as the following. Though a bit old, the relative difference in speed is meaningful. (**If you have a more powerful CPU, the time cost will be shorter.**)
+
 
 ```
 CPU: Intel Core i5 3230M (2 cores, 4 threads)
@@ -196,15 +216,38 @@ The following is the performance comparison. **This acceleration method can save
 | Acceleration Method | Time Cost *|
 | --- | --- |
 | No (Official Version) | 1 min 5 s |
-| Using Draft Cache | 50 s |
+| **Using Draft Cache** | 50 s |
 | Reduce resolution to 50% | 26 s |
-| Reduce resolution to 50% & Using Draft Cache | 15 s |
+| Reduce resolution to 50% & **Using Draft Cache** | **15 s** |
 
 (* The above time cost are the second time of colorization. Draft points remain the same with the previous step, and only accurate points are changed.)
 
 If you want to disable draft cache, please modify `is_draft_cache_enabled` in `config.py`, and restart the python application to apply the setting.
 
+## Acceleration 3: Temporarily Disable Image Super-Resolution
+
+Disable the image super-resolution for the painting (the refinement model's output) will **save 5~17 seconds** each time on my machine. Though it reduce output's resolution to 50% of the original, it **won't affect the painting quality**. (Unlike reducing resolution of the refinement model's input)
+
+For acceleration, please follow these steps: (1) Temporarily disable image super-resolution when adjusting color hint points. (2) After all the hints are set properly, turn on super-resolution to render the final output result with higher resolution.
+
+To enable/disable Image Super-Resolution, please modify `enable_super_resolution` in `config.ini`. It's safe to modify it while the program is running.
+
+Performance comparison:
+
+| Acceleration Method | Output's Resolution | Time Cost |
+| --- | --- | --- |
+| No (Official Version) | 1024px  | 1 min 5 s |
+| **Disable super-resolution** | 512px | 48 s |
+| Reduce input's resolution to 50%  | 512px | 26 s |
+| Reduce input's resolution to 50% & **Disable super-resolution** | 256px | 21 s |
+| Reduce input's resolution to 50% & Using Draft Cache | 512px | 15 s |
+| Reduce input's resolution to 50% & Using Draft Cache & **Disable super-resolution** | 256px | **10 s** |
+
+
 # ChangeLog
+Patch V2.1:
+- Acceleration: Temporarily disable image super-resolution.
+
 Patch V2.0:
 - Acceleration: Use draft cache to accelerate.
 
