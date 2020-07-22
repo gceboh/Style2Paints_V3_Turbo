@@ -47,7 +47,8 @@ def handle_sketch_upload_pool():
     if len(sketch_upload_pool) > 0:
         # print input sketch's resolution
         sketch_real_resolution=int(1024*get_sketch_resolution_factor())
-        print('Currently all input sketch will be resized to ' + str(sketch_real_resolution) + 'px')
+        percentage_for_print=format(get_sketch_resolution_factor(), '.0%')
+        print('Currently all input sketch will be resized to {0} px ({1})'.format(str(sketch_real_resolution),percentage_for_print))
         
         room, sketch, method = sketch_upload_pool[0]
         del sketch_upload_pool[0]
@@ -177,7 +178,13 @@ def handle_painting_pool():
             global_hint_x=k_resize(reference, 14) if reference is not None else k_resize(composition, 14),
             alpha=(1 - alpha) if reference is not None else 1
         )
-        result = go_tail(result)
+        
+        if True==(get_enable_super_resolution()):
+            print('Image Super-Resolution for the final painting...')
+            result = go_tail(result)
+        else:
+            print('Turbo: skip Image Super-Resolution for the final painting')
+
         cv2.imwrite(room_path + '/result.' + ID + '.jpg', result)
         cv2.imwrite('results/' + room + '.' + ID + '.jpg', result)
         if debugging:
