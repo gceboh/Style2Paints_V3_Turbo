@@ -65,20 +65,23 @@ scikit-image==0.13.1
 paste==2.0.3
 ```
 
-(Performance note: Currently I suggest you install TensorFlow through `pip` rather than `conda`. The reason is that, under default setting, TensorFlow installed in `pip` uses all the CPU cores, while TensorFlow installed in `conda` uses only one CPU core, which is much slower. The reason is unknown.)
-
-If you still prefer `conda` environment, install `tensorflow-mkl` instead of `tensorflow`. `tensorflow-mkl`'s performance under `conda` is nearly the same as `tensorflow` under `pip`, but it will reduce CPU usage significantly.
-```
-conda install python==3.6.8
-conda install bottle==0.12.13 -c conda-forge
-conda install tensorflow-mkl==1.13.1 keras==2.2.4 gevent==1.2.2 h5py==2.7.1 opencv==3.4.1 scikit-image==0.13.1 paste==2.0.3 numpy==1.14.5
-```
-
 2. Install this unofficial patch:
 Use the patch files in the `code/` dir to replace the corresponding official files.
 
 3. After launching the server by `python server.py`, visit `http://127.0.0.1:8232/` in your web browser. (Default server port has been changed.)
 
+<br/>
+
+Additional performance note: 
+Currently I suggest you install TensorFlow through `pip` rather than `conda`. The reason is that, under default setting, TensorFlow installed in `pip` uses all the CPU cores, while TensorFlow installed in `conda` uses only one CPU core, which is much slower. The reason is unknown.
+
+If you still prefer `conda` environment, install `tensorflow-mkl` instead of `tensorflow`. `tensorflow-mkl`'s performance under `conda` is nearly the same as `tensorflow` under `pip`, but it will reduce CPU usage significantly.
+
+```
+conda install python==3.6.8
+conda install bottle==0.12.13 -c conda-forge
+conda install tensorflow-mkl==1.13.1 keras==2.2.4 gevent==1.2.2 h5py==2.7.1 opencv==3.4.1 scikit-image==0.13.1 paste==2.0.3 numpy==1.14.5
+```
 
 ## How to save/load color hint points?
 
