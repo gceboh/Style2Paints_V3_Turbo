@@ -12,7 +12,7 @@ The following is performance comparisons on an old CPU: (**If you have a more po
 
 | Acceleration Method | Output's Resolution | Time Cost |
 | --- | --- | --- |
-| No (Official Version) | 1024px  | 1 min 5 s |
+| No (V3 official version) | 1024px  | 1 min 5 s |
 | Reduce input's resolution to 50%  | 512px | 26 s |
 | Reduce input's resolution to 50% & Using Draft Cache | 512px | 15 s |
 | Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution | 256px | **10 s** |
@@ -27,7 +27,7 @@ Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU
 - Acceleration 3: Temporarily disable image super-resolution.
 - Adjustable output resolution, so you can find a balance between speed and quality.
 - Support of loading previously saved color hint points.
-
+- Fix some bugs of the official version.
 
 # What's new
 [2020.07.22] Patch V2.1: Acceleration: Temporarily disable image super-resolution.
