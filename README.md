@@ -72,7 +72,7 @@ Use the patch files in the `code/` dir to replace the corresponding official fil
 
 <br/>
 
-Additional performance note: 
+## Additional Performance Note
 Currently I suggest you install TensorFlow through `pip` rather than `conda`. The reason is that, under default setting, TensorFlow installed in `pip` uses all the CPU cores, while TensorFlow installed in `conda` uses only one CPU core, which is much slower. The reason is unknown.
 
 If you still prefer `conda` environment, install `tensorflow-mkl` instead of `tensorflow`. `tensorflow-mkl`'s performance under `conda` is nearly the same as `tensorflow` under `pip`, but it will reduce CPU usage significantly.
