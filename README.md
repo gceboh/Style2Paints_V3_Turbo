@@ -47,7 +47,7 @@ For detailed info, please refer to the [ChangeLog](#changelog).
 
 1.1 Download the official [Style2Paints V3 Repo](https://github.com/lllyasviel/style2paints/tree/b0a529e70ec1414b53bf5e990d614b121086cd77/V3). 
 
-1.2 Style2Paints V3's [offline installation guide](https://github.com/lllyasviel/style2paints/issues/100).
+1.2 Style2Paints V3's [installation guide](https://github.com/lllyasviel/style2paints/issues/100).
 
 Please use the following requirement file instead to avoid [package version conflict](https://github.com/lllyasviel/style2paints/issues/100#issuecomment-645709881). Version of each package has been set to near the release date of Style2paints V3 (2018.4.28).
 
