@@ -465,7 +465,8 @@ require = function i(r, d, l) {
         t.url = "",
         t.fake_callback = function(e) {
             void 0 !== window.URL ? t.url = window.URL.createObjectURL(e.target.files[0]) : t.url = window.webkitURL.createObjectURL(e.target.files[0]),
-            t.actural_callback(t.url)
+            t.actural_callback(t.url),
+            event.target.value = "" //fix bug (can't upload the same sketch)
         }
         ,
         t.html_obj.addEventListener("change", t.fake_callback, !1),
