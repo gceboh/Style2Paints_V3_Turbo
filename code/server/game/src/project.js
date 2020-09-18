@@ -812,7 +812,30 @@ require = function i(r, d, l) {
                 window.open("https://github.com/lllyasviel/style2paints/tree/master/V3")
             },
             onAlter: function() {
-                window.cnzh ? this.onCD() : this.onGithub()
+				//Save color hints
+				if (window.creativeCanvas.points_XYRGBR.length > 0) {
+					var hintsFileName="ColorHints-"+ window.current_room +".json.txt";
+					generateFileForDownload(hintsFileName,JSON.stringify(window.creativeCanvas.points_XYRGBR));
+					
+					//Encode string into a text file for download
+					function generateFileForDownload(filename, text) {
+						var element = document.createElement('a');
+						element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+						element.setAttribute('download', filename);
+						
+						element.style.display = 'none';
+						document.body.appendChild(element);
+						
+						element.click();
+						
+						document.body.removeChild(element);
+					}
+                }else{
+					alert("No color hint points found! Before saving hints, please add at least one color hint point.");
+				}
+				
+				//original doc link button
+                //window.cnzh ? this.onCD() : this.onGithub()
             },
             load_reference_url: function(e) {
                 var a = 1 < arguments.length && void 0 !== arguments[1] ? arguments[1] : null;
@@ -973,11 +996,11 @@ require = function i(r, d, l) {
 
 
                     function upload_color_hint(){//upload color hint points
-                        var prompt_msg="Want to load previous color hint points?\nPlease paste the JSON file content here: \n\n"
+                        var prompt_msg="Want to load previous color hint points?\nPlease paste the JSON file content (JSON array) here: \n\n"
                         prompt_msg+="(If you don't need to load previous hint points, leave it blank and click OK/Cancel.)"
                         var hint_json_value = prompt(prompt_msg);
                         if(null != hint_json_value && ""!=hint_json_value){
-                            window.creativeCanvas.points_XYRGBR = JSON.parse(hint_json_value).points;
+                            window.creativeCanvas.points_XYRGBR = JSON.parse(hint_json_value);
                             window.creativeCanvas.finish();//update canvas
                         }
                     }
