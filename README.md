@@ -6,7 +6,7 @@ Develop stage: Beta (More test is needed)
 
 This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Integrated Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, currently Style2Paints V4.5 can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration.
 
-After applying this patch, users (especially with an old/low-end/laptop CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X ~ 6X faster**. In other words, **colorization time is shortened to less than 16% ~ 50% of the original**.
+After applying this patch, users (especially with an old/low-end/laptop CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X ~ 6X faster**. In other words, **colorization time is shortened to 16% ~ 50% of the original**.
 
 The following is performance comparisons on an old CPU: (**If you have a more powerful CPU, the time cost will be shorter.**)
 
@@ -14,10 +14,12 @@ The following is performance comparisons on an old CPU: (**If you have a more po
 | --- | --- | --- |
 | No (V3 official version) | 1024px  | 1 min 5 s |
 | Reduce input's resolution to 50%  | 512px | 26 s |
-| Reduce input's resolution to 50% & Using Draft Cache | 512px | 15 s |
-| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution | 256px | **10 s** |
+| Reduce input's resolution to 50% & Using Draft Cache * | 512px | 15 s |
+| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution * | 256px | **10 s** |
 
-**This acceleration patch is intended for machine learning researchers/programmers, rather than artists**. It pays more attention on performance than art quality.
+(* The time cost with star are the second time of colorization. Draft points remain the same with the previous step, and only Accurate points are changed.)
+
+**This acceleration patch is intended for machine learning beginers/programmers, rather than artists**. It pays more attention on performance than art quality.
 
 Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU Users](https://github.com/lllyasviel/style2paints/issues/146).
 
@@ -30,6 +32,12 @@ Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU
 - Fix some bugs of the official version.
 
 # What's new
+[2020.09.23] Patch V2.2:
+
+Improve: Allow users to save/load color hints directly on UI.
+
+Improve: Save color hints as downloadable `json` file instead of string, which is more user friendly.
+
 [2020.07.22] Patch V2.1: Acceleration: Temporarily disable image super-resolution.
 
 [2020.07.09] patch v2.0: Acceleration: Use draft cache to accelerate.
@@ -85,12 +93,17 @@ conda install tensorflow-mkl==1.13.1 keras==2.2.4 gevent==1.2.2 h5py==2.7.1 open
 
 ## How to save/load color hint points?
 
-Saving color hint: No need for extra operation. Every time you click the 'colorize' button, the hint info will be auto saved in `server\game\rooms\[date-time]\options.[time].json`.
+![ColorHintsButton](img/ColorHintsButton.png)
 
-Loading color hint: After you upload a sketch, an dialog for uploading color hint will be shown. Copy the file content in `options.[time].json`, and paste it in the input box. After click ok, the color hints will be added to the canvas.
+**Save color hints**: Click the "Download color hints" button, and then a `json` file will be downloaded.
 
-Note that even after you tuning the input sketch's resolution by modifying config file, you can still load the previously saved hint points.
+**Load color hints**: Click the "Upload color hints" button, and then choose a previously saved `json` file. Note that even after you tuning the input sketch's resolution by modifying config file, you can still load the previously saved hint points.
 
+**PS: Where is the "Example Gallery" and "Document (Tutorial)"?**
+
+They are on the welcome screen.
+
+![WelcomeScreen](img/WelcomeScreen.png)
 
 # Performance Tuning
 
@@ -248,6 +261,11 @@ Performance comparison:
 
 
 # ChangeLog
+Patch V2.2:
+- Improve: Allow users to save/load color hints directly on UI. (Due to the UI is very hard to modify, two duplicate buttons have been replaced.)
+- Improve: Save color hints as downloadable `json` file instead of string, which is more user friendly.
+- Fix: Fix a small bug of V3: Can't upload the same sketch for more than once.(This fix was borrowed from S2P V4.5 .)
+
 Patch V2.1:
 - Acceleration: Temporarily disable image super-resolution.
 
