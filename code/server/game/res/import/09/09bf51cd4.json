@@ -1562,7 +1562,7 @@
 			"_actualFontSize": 24,
 			"_fontSize": 24,
 			"_lineHeight": 24,
-			"_N$string": "Get Started",
+			"_N$string": "Example Gallery\n（范例线稿）",
 			"_N$horizontalAlign": 1,
 			"_N$verticalAlign": 1
 		}],
@@ -4222,9 +4222,9 @@
 			"node": {
 				"__id__": 110
 			},
-			"chinese": "范例线稿",
-			"japanese": "サンプル線画",
-			"english": "GetSamples"
+			"chinese": "上传颜色提示",
+			"japanese": "Upload color hints",
+			"english": "Upload color hints"
 		}],
 		"_color": {
 			"__type__": "cc.Color",
@@ -4413,9 +4413,9 @@
 			"node": {
 				"__id__": 114
 			},
-			"chinese": "保存颜色提示",
-			"japanese": "Save Color Hints",
-			"english": "Save Color Hints"
+			"chinese": "下载颜色提示",
+			"japanese": "Download color hints",
+			"english": "Download color hints"
 		}],
 		"_color": {
 			"__type__": "cc.Color",

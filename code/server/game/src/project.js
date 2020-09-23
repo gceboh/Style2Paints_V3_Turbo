@@ -799,8 +799,24 @@ require = function i(r, d, l) {
                 window.hintL3Node.opacity = parseInt(255 * window.current_referenceAlpha)
             },
             on_home: function() {
-                window.uploading || (window.controller.logo_node.active || (window.controller.welcome_node.active = !window.controller.welcome_node.active),
-                window.controller.logo_node.active = !1)
+                //upload color hints
+                var input = document.createElement("input");//create an input for upload json file
+                input.type = "file";
+                input.accept = "application/json";//accept .json file only
+                input.onchange = function(){//when a file has been selected
+                    var reader = new FileReader();
+                    reader.readAsText(input.files[0], "UTF-8");//read the file
+                    reader.onload = function (e) {
+                        var json_obj = JSON.parse(e.target.result);//parse json string
+                        window.creativeCanvas.points_XYRGBR = json_obj;//load hints array
+                        window.creativeCanvas.finish();//update canvas
+                    }
+                }
+                input.click();
+                
+                //original code for showing samples
+                //window.uploading || (window.controller.logo_node.active || (window.controller.welcome_node.active = !window.controller.welcome_node.active),
+                //window.controller.logo_node.active = !1)
             },
             on_start: function() {
                 window.controller.logo_node.active = !1
@@ -814,7 +830,7 @@ require = function i(r, d, l) {
             onAlter: function() {
 				//Save color hints
 				if (window.creativeCanvas.points_XYRGBR.length > 0) {
-					var hintsFileName="ColorHints-"+ window.current_room +".json.txt";
+					var hintsFileName="ColorHints-"+ window.current_room +".json";
 					generateFileForDownload(hintsFileName,JSON.stringify(window.creativeCanvas.points_XYRGBR));
 					
 					//Encode string into a text file for download
@@ -991,21 +1007,6 @@ require = function i(r, d, l) {
             onUploadSketchClicked: function() {
                 window.uploading || window.fileSelector.activate(function(e) {
                     window.controller.onClearClicked();//clear canvas
-
-                    upload_color_hint();//upload color hint points
-
-
-                    function upload_color_hint(){//upload color hint points
-                        var prompt_msg="Want to load previous color hint points?\nPlease paste the JSON file content (JSON array) here: \n\n"
-                        prompt_msg+="(If you don't need to load previous hint points, leave it blank and click OK/Cancel.)"
-                        var hint_json_value = prompt(prompt_msg);
-                        if(null != hint_json_value && ""!=hint_json_value){
-                            window.creativeCanvas.points_XYRGBR = JSON.parse(hint_json_value);
-                            window.creativeCanvas.finish();//update canvas
-                        }
-                    }
-
-                    
                     window.creativeCanvas.cache = [],
                     window.current_room = "new",
                     window.current_step = "new",
