@@ -58,6 +58,7 @@ def handle_sketch_upload_pool():
         room_datetime=datetime.datetime.strptime(room_datetime_str,'%b%dH%HM%MS%S')
         ID=room_datetime.strftime('H%HM%MS%S')
         
+        # Process sketch
         print('processing sketch... (room: ' + room_path + ')')
         if os.path.exists(room_path + '/sketch.improved.jpg'):
             improved_sketch = cv2.imread(room_path + '/sketch.improved.jpg')
@@ -71,6 +72,8 @@ def handle_sketch_upload_pool():
             improved_sketch = sensitive(improved_sketch, s=5.0)
             improved_sketch = go_tail(improved_sketch)
             cv2.imwrite(room_path + '/sketch.improved.jpg', improved_sketch)
+            # save processed sketch for download
+            cv2.imwrite(room_path + '/result.' + ID + '.jpg', improved_sketch)
         color_sketch = improved_sketch.copy()
         
         # Extract sketch from painting
@@ -81,6 +84,7 @@ def handle_sketch_upload_pool():
             if os.path.exists(room_path + '/sketch.recolorization.jpg') or os.path.exists(room_path + '/sketch.de_painting.jpg'):
                 print('lucky to find lined sketch')
             else:
+                print('Extracting sketch from painting...')
                 improved_sketch = go_passline(color_sketch)
                 improved_sketch = min_k_down_c(improved_sketch, 2)
                 improved_sketch = cv_denoise(improved_sketch)
