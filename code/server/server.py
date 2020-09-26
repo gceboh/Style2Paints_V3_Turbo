@@ -53,6 +53,11 @@ def handle_sketch_upload_pool():
         room, sketch, method = sketch_upload_pool[0]
         del sketch_upload_pool[0]
         room_path = 'game/rooms/' + room
+        # try to get ID from "room id" string
+        room_datetime_str=room[0:room.find('R')]
+        room_datetime=datetime.datetime.strptime(room_datetime_str,'%b%dH%HM%MS%S')
+        ID=room_datetime.strftime('H%HM%MS%S')
+        
         print('processing sketch... (room: ' + room_path + ')')
         if os.path.exists(room_path + '/sketch.improved.jpg'):
             improved_sketch = cv2.imread(room_path + '/sketch.improved.jpg')
@@ -67,6 +72,8 @@ def handle_sketch_upload_pool():
             improved_sketch = go_tail(improved_sketch)
             cv2.imwrite(room_path + '/sketch.improved.jpg', improved_sketch)
         color_sketch = improved_sketch.copy()
+        
+        # Extract sketch from painting
         std = cal_std(color_sketch)
         print('std = ' + str(std))
         need_de_painting = (std > 100.0) and method == 'rendering'
@@ -80,6 +87,8 @@ def handle_sketch_upload_pool():
                 improved_sketch = go_tail(improved_sketch)
                 improved_sketch = sensitive(improved_sketch, s=5.0)
                 cv2.imwrite(room_path + '/sketch.recolorization.jpg', min_black(improved_sketch))
+                # save extracted sketch for download
+                cv2.imwrite(room_path + '/result.' + ID + '.jpg', min_black(improved_sketch))
                 if need_de_painting:
                     cv2.imwrite(room_path + '/sketch.de_painting.jpg', min_black(improved_sketch))
                     print('In rendering mode, the user has uploaded a painting, and I have translated it into a sketch.')
