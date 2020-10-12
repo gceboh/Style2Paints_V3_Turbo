@@ -33,7 +33,7 @@ Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU
 
 # What's new
 [2020.10.11] Patch V2.2.1:
-- Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
+Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
 
 [2020.09.23] Patch V2.2.0:
 
