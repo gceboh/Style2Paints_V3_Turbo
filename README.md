@@ -32,7 +32,10 @@ Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU
 - Fix some bugs of the official version.
 
 # What's new
-[2020.09.23] Patch V2.2:
+[2020.10.11] Patch V2.2.1:
+- Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
+
+[2020.09.23] Patch V2.2.0:
 
 Improve: Allow users to save/load color hints directly on UI.
 
@@ -261,7 +264,10 @@ Performance comparison:
 
 
 # ChangeLog
-Patch V2.2:
+Patch V2.2.1:
+- Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
+
+Patch V2.2.0:
 - Improve: Allow users to save/load color hints directly on UI. (Due to the UI is very hard to modify, two duplicate buttons have been replaced.)
 - Improve: Save color hints as downloadable `json` file instead of string, which is more user friendly.
 - Fix: Fix a small bug of V3: Can't upload the same sketch for more than once.(This fix was borrowed from S2P V4.5 .)
