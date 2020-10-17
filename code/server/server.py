@@ -195,8 +195,11 @@ def handle_painting_pool():
         if True==(get_enable_super_resolution()):
             print('Image Super-Resolution for the final painting...')
             result = go_tail(result)
+            print('Resizing complete.')
         else:
-            print('Turbo: skip Image Super-Resolution for the final painting')
+            print('Turbo: Use interpolation algorithm to resize the final painting')
+            result = d_resize(result,result.shape,1.5) # resize it to 1.5X using Lanczos interpolation
+            print('Resizing complete.')
 
         cv2.imwrite(room_path + '/result.' + ID + '.jpg', result)
         cv2.imwrite('results/' + room + '.' + ID + '.jpg', result)
