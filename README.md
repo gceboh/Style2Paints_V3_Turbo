@@ -15,7 +15,7 @@ The following is performance comparisons on an old CPU: (**If you have a more po
 | No (V3 official version) | 1024px  | 1 min 5 s |
 | Reduce input's resolution to 50%  | 512px | 26 s |
 | Reduce input's resolution to 50% & Using Draft Cache * | 512px | 15 s |
-| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution * | 256px | **10 s** |
+| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution * | 384px | **10 s** |
 
 (* The time cost with star are the second time of colorization. Draft points remain the same with the previous step, and only Accurate points are changed.)
 
@@ -32,11 +32,9 @@ Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU
 - Fix some bugs of the official version.
 
 # What's new
-[2020.10.24] Patch V2.3.0:
-- Acceleration method improve: Instead of disable deep learning-based image super-resolution, replace it with mathematical interpolation algorithm (Lanczos algorithm).
+[2020.10.24] Patch V2.3.0: Acceleration method improve: Instead of disable deep learning-based image super-resolution, replace it with mathematical interpolation algorithm (Lanczos algorithm).
 
-[2020.10.11] Patch V2.2.1:
-Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
+[2020.10.11] Patch V2.2.1: Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
 
 [2020.09.23] Patch V2.2.0:
 
@@ -263,9 +261,9 @@ Performance comparison:
 | No (Official Version) | 1024px  | 1 min 5 s |
 | **Disable super-resolution** | 512px | 48 s |
 | Reduce input's resolution to 50%  | 512px | 26 s |
-| Reduce input's resolution to 50% & **Disable super-resolution** | 256px | 21 s |
+| Reduce input's resolution to 50% & **Disable super-resolution** | 384px | 21 s |
 | Reduce input's resolution to 50% & Using Draft Cache | 512px | 15 s |
-| Reduce input's resolution to 50% & Using Draft Cache & **Disable super-resolution** | 256px | **10 s** |
+| Reduce input's resolution to 50% & Using Draft Cache & **Disable super-resolution** | 384px | **10 s** |
 
 
 # ChangeLog
