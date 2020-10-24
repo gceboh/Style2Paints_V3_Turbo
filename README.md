@@ -26,12 +26,15 @@ Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU
 **Features:**
 - Acceleration 1: Reduce image resolution to achieve up to 2X faster.
 - Acceleration 2: Use draft cache to accelerate.
-- Acceleration 3: Temporarily disable image super-resolution.
+- Acceleration 3: Replace deep learning based image super-resolution with mathematical interpolation algorithm.
 - Adjustable output resolution, so you can find a balance between speed and quality.
 - Support of loading previously saved color hint points.
 - Fix some bugs of the official version.
 
 # What's new
+[2020.10.24] Patch V2.3.0:
+- Acceleration method improve: Instead of disable deep learning-based image super-resolution, replace it with mathematical interpolation algorithm (Lanczos algorithm).
+
 [2020.10.11] Patch V2.2.1:
 Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
 
@@ -243,13 +246,15 @@ The following is the performance comparison. **This acceleration method can save
 
 If you want to disable draft cache, please modify `is_draft_cache_enabled` in `config.py`, and restart the python application to apply the setting.
 
-## Acceleration 3: Temporarily Disable Image Super-Resolution
+## Acceleration 3: Replace Deep learning-based Image Super-Resolution
 
-Disable the image super-resolution for the painting (the refinement model's output) will **save 5~17 seconds** each time on my machine. Though it reduce output's resolution to 50% of the original, it **won't affect the painting quality**. (Unlike reducing resolution of the refinement model's input)
+Replace Deep learning-based Image Super-Resolution for the painting (the refinement model's output) with mathematical interpolation algorithm. The interpolation algorithm is Lanczos interpolation over 8×8 pixel neighborhood (INTER_LANCZOS4).
+
+It will **save 5~17 seconds** each time on my machine. Though it reduce output's resolution a little, it **won't affect the painting quality**. (Unlike reducing resolution of the refinement model's input)
 
 For acceleration, please follow these steps: (1) Temporarily disable image super-resolution when adjusting color hint points. (2) After all the hints are set properly, turn on super-resolution to render the final output result with higher resolution.
 
-To enable/disable Image Super-Resolution, please modify `enable_super_resolution` in `config.ini`. It's safe to modify it while the program is running.
+To enable/disable Deep learning-based Image Super-Resolution, please modify `enable_super_resolution` in `config.ini`. It's safe to modify it while the program is running.
 
 Performance comparison:
 
@@ -264,6 +269,9 @@ Performance comparison:
 
 
 # ChangeLog
+Patch V2.3.0:
+- Acceleration method improve: Instead of disable deep learning-based image super-resolution, replace it with mathematical interpolation algorithm (Lanczos algorithm).
+
 Patch V2.2.1:
 - Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
 
