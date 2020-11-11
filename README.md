@@ -295,7 +295,7 @@ Patch V1.0:
 - fix: Change default server port. ([Issue #126](https://github.com/lllyasviel/style2paints/issues/126))
 - fix: Fix out-of-date tutorial link, currently link to [V3's readme.md](https://github.com/lllyasviel/style2paints/tree/master/V3).
 - improve: Print loading model info when initializing. Print progress info when colorizing.
-- fix: fix TensorFlow Version to 1.X [Issue #133](https://github.com/lllyasviel/style2paints/issues/133), [Issue #100](https://github.com/lllyasviel/style2paints/issues/100)
+- fix: fix TensorFlow Version to 1.X ([Issue #133](https://github.com/lllyasviel/style2paints/issues/133), [Issue #100](https://github.com/lllyasviel/style2paints/issues/100))
 ---
 
 Commercial usage without [Style2Paints's original author](https://github.com/lllyasviel)'s authorization is forbidden. This unofficial repo is distributed in the hope that it will be useful, but without any warranty.
