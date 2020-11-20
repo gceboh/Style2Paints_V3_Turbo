@@ -4,7 +4,7 @@ Style2Paints's official repository: [Link](https://github.com/lllyasviel/style2p
 
 Develop stage: Beta (More test is needed)
 
-This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Integrated Graphics/AMD GPU** users. Because these graphic cards doesn't support CUDA, currently Style2Paints V4.5 can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration.
+This **unofficial** repo mainly aims at **accelerating** Style2Paints V3, for those who **DO NOT own NVIDIA graphic card**, including **Integrated Graphics/AMD GPU** users. (Integrated Graphics including "Intel HD Graphics"/"AMD Accelerated Processing Unit(APU)"/etc.) Because these graphic cards doesn't support CUDA, currently Style2Paints V4.5 can't use GPU to accelerate the colorization process. Therefore, CPU is used for colorizing, which is much slower than GPU acceleration.
 
 After applying this patch, users (especially with an old/low-end/laptop CPU) will get a significant performance boost. On my machine, it makes Style2Paints V3 **2X ~ 6X faster**. In other words, **colorization time is shortened to 16% ~ 50% of the original**.
 
@@ -13,9 +13,11 @@ The following is performance comparisons on an old CPU: (**If you have a more po
 | Acceleration Method | Output's Resolution | Time Cost |
 | --- | --- | --- |
 | No (V3 official version) | 1024px  | 1 min 5 s |
+| Upgrade TensorFlow | 1024px | 59 s |
 | Reduce input's resolution to 50%  | 512px | 26 s |
 | Reduce input's resolution to 50% & Using Draft Cache * | 512px | 15 s |
-| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution * | 384px | **10 s** |
+| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution * | 384px | 10 s |
+| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution & Upgrade TF  * | 384px | **8.5 s** |
 
 (* The time cost with star are the second time of colorization. Draft points remain the same with the previous step, and only Accurate points are changed.)
 
@@ -32,6 +34,8 @@ Related issue: [[Performance Tuning] Workarounds for Integrated Graphics/AMD GPU
 - Fix some bugs of the official version.
 
 # What's new
+[2020.11.20] Patch V2.3.1: Acceleration: Upgrade TensorFlow. Please see the description in "Acceleration 4".
+
 [2020.10.24] Patch V2.3.0: Acceleration method improve: Instead of disable deep learning-based image super-resolution, replace it with mathematical interpolation algorithm (Lanczos algorithm).
 
 [2020.10.11] Patch V2.2.1: Fix: Fix a small bug of V3: When extracting line drawings from finished illustrations under the "re-colorization mode", users can't export (save) the extracted line drawings.
@@ -67,14 +71,15 @@ Please use the following requirement file instead to avoid [package version conf
 
 requirement_cpu.txt:
 ```
-tensorflow==1.10.0
-keras==2.1.6
+tensorflow==1.15.4
+keras==2.3.1
 bottle==0.12.13
 gevent==1.2.2
 h5py==2.7.1
 opencv-python==3.4.0.12
-scikit-image==0.13.1
+scikit-image==0.14.2
 paste==2.0.3
+numpy==1.18.5
 ```
 
 2. Install this unofficial patch:
@@ -266,7 +271,26 @@ Performance comparison:
 | Reduce input's resolution to 50% & Using Draft Cache & **Disable super-resolution** | 384px | **10 s** |
 
 
+## Acceleration 4: Upgrade TensorFlow
+
+Interestingly, simplyly upgrade TensorFlow from version `1.10.0` to `1.15.4` will shorten the inference time by few seconds, without modifying any code. (Note that `numpy` and `scikit-image` also need to be upgraded.) The `requirement_cpu.txt` has been updated.
+
+Performance comparison:
+
+| Acceleration Method | Output's Resolution | Time Cost |
+| --- | --- | --- |
+| No (Official Version) | 1024px  | 1 min 5 s |
+| **Upgrade TF** | 1024px | **59 s** |
+| Reduce input's resolution to 50% & Disable super-resolution | 384px | 21 s |
+| Reduce input's resolution to 50% & Disable super-resolution  & **Upgrade TF** | 384px | **19 s** |
+| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution | 384px | 10 s |
+| Reduce input's resolution to 50% & Using Draft Cache & Disable super-resolution & **Upgrade TF** | 384px | **8.5 s** |
+
+
 # ChangeLog
+Patch V2.3.1:
+- Acceleration: Upgrade TensorFlow. Please see the description in "Acceleration 4".
+
 Patch V2.3.0:
 - Acceleration method improve: Instead of disable deep learning-based image super-resolution, replace it with mathematical interpolation algorithm (Lanczos algorithm).
 
